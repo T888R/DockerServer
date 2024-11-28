@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -13,16 +12,17 @@ func main() {
 
 	m.HandleFunc("/", handlePage)
 
+	const addr = ":8080"
 	srv := http.Server{
 		Handler:      m,
-		Addr:         os.Getenv("PORT"),
+		Addr:         addr,
 		WriteTimeout: 30 * time.Second,
 		ReadTimeout:  30 * time.Second,
 	}
 
 	// this blocks forever, until the server
 	// has an unrecoverable error
-	fmt.Println("server started on ", os.Getenv("PORT"))
+	fmt.Println("server started on ", addr)
 	err := srv.ListenAndServe()
 	log.Fatal(err)
 }
